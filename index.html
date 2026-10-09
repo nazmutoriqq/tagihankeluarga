@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#0a0a0f">
+  <title>Tagihan Keluarga</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <!-- LAYAR PIN (muncul hanya kalau PIN diisi di config.js) -->
+  <div id="lock" class="lock hidden">
+    <form id="lockForm" class="lock-box" autocomplete="off">
+      <h2>Tagihan <span>Keluarga</span></h2>
+      <p>Masukkan PIN keluarga</p>
+      <input id="pinInput" type="password" inputmode="numeric" maxlength="8" placeholder="••••" autofocus>
+      <button class="btn primary" type="submit">Buka</button>
+    </form>
+  </div>
+
+  <main class="app">
+    <header class="top">
+      <h1>Tagihan <span>Keluarga</span></h1>
+      <p id="modeBadge" class="badge"></p>
+    </header>
+
+    <div class="month-nav">
+      <button id="prevMonth" class="icon-btn" aria-label="Bulan sebelumnya">&#8249;</button>
+      <div id="monthLabel" class="month-label"></div>
+      <button id="nextMonth" class="icon-btn" aria-label="Bulan berikutnya">&#8250;</button>
+    </div>
+
+    <section class="summary">
+      <div class="card">
+        <span class="label">Total bulan ini</span>
+        <strong id="sumTotal">Rp 0</strong>
+      </div>
+      <div class="card">
+        <span class="label">Sudah dibayar</span>
+        <strong id="sumPaid" class="ok">Rp 0</strong>
+      </div>
+      <div class="card wide">
+        <span class="label">Sisa yang harus dibayar</span>
+        <strong id="sumRemain">Rp 0</strong>
+        <small id="sumLate"></small>
+      </div>
+    </section>
+
+    <div class="toolbar">
+      <h2>Daftar tagihan</h2>
+      <button id="copyBtn" class="btn small outline">Salin dari bulan lalu</button>
+    </div>
+
+    <section id="list" class="list"></section>
+
+    <div id="empty" class="empty hidden">
+      <p>Belum ada tagihan di bulan ini.</p>
+      <p>Tekan tombol <b>+</b> untuk menambah, atau pakai <b>Salin dari bulan lalu</b> kalau tagihannya sama.</p>
+    </div>
+  </main>
+
+  <button id="addBtn" class="fab" aria-label="Tambah tagihan">+</button>
+
+  <!-- FORM TAMBAH / EDIT TAGIHAN -->
+  <dialog id="billDialog">
+    <form id="billForm" autocomplete="off">
+      <h3 id="billDialogTitle">Tambah Tagihan</h3>
+      <p id="billMonthHint" class="hint"></p>
+
+      <label>Nama tagihan
+        <input id="fName" type="text" maxlength="40" placeholder="Contoh: Listrik PLN" required>
+      </label>
+      <label>Nominal (Rp)
+        <input id="fAmount" type="number" min="0" step="1000" inputmode="numeric" placeholder="450000" required>
+      </label>
+      <label>Jatuh tempo tanggal
+        <input id="fDay" type="number" min="1" max="31" inputmode="numeric" placeholder="5" required>
+      </label>
+      <label>Catatan (opsional)
+        <input id="fNote" type="text" maxlength="80" placeholder="Contoh: ID pelanggan 1234">
+      </label>
+
+      <div class="dialog-actions">
+        <button type="button" id="deleteBtn" class="btn danger hidden">Hapus</button>
+        <span class="spacer"></span>
+        <button type="button" id="cancelBill" class="btn ghost">Batal</button>
+        <button type="submit" class="btn primary">Simpan</button>
+      </div>
+    </form>
+  </dialog>
+
+  <!-- FORM NAMA PEMBAYAR -->
+  <dialog id="nameDialog">
+    <form id="nameForm" autocomplete="off">
+      <h3>Siapa yang membayar?</h3>
+      <label>Nama
+        <input id="payerName" type="text" maxlength="20" placeholder="Contoh: Ayah" required>
+      </label>
+      <div class="dialog-actions">
+        <span class="spacer"></span>
+        <button type="button" id="cancelName" class="btn ghost">Batal</button>
+        <button type="submit" class="btn primary">Tandai lunas</button>
+      </div>
+    </form>
+  </dialog>
+
+  <!-- SALIN DARI BULAN LALU -->
+  <dialog id="copyDialog">
+    <h3>Salin dari bulan lalu</h3>
+    <p id="copyHint" class="hint"></p>
+    <div id="copyList" class="copy-list"></div>
+    <div class="dialog-actions">
+      <span class="spacer"></span>
+      <button type="button" id="cancelCopy" class="btn ghost">Batal</button>
+      <button type="button" id="confirmCopy" class="btn primary">Salin yang dipilih</button>
+    </div>
+  </dialog>
+
+  <div id="toast" class="toast" role="status"></div>
+
+  <script src="config.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
